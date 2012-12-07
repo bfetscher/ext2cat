@@ -44,7 +44,8 @@ int main(int argc, char ** argv) {
     // also get stuff from the singly indirect block, if possible
     void * indir_block = get_block(fs, target_ino->i_block[EXT2_IND_BLOCK]);
     __u32 * next_block = (__u32 *)indir_block;
-    while (bytes_read < size && (((void *)next_block - indir_block) < get_block_size(fs))) {
+    
+    while (bytes_read < size && ((unsigned)((void *)next_block - indir_block) < (unsigned)get_block_size(fs))) {
       bytes_left = size - bytes_read;
        __u32 bytes_to_read = bytes_left > block_size ? block_size : bytes_left;
        void * block = get_block(fs, *next_block);
